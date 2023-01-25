@@ -4,10 +4,7 @@ import com.yogiyo.clone.domain.user.dto.SignUpForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import static com.yogiyo.clone.domain.user.entity.UserRole.*;
 
@@ -25,6 +22,7 @@ public class Users {
 
     private String password;
 
+    @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
     public Users(SignUpForm signUpForm) {

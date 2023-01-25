@@ -4,8 +4,8 @@ import com.yogiyo.clone.domain.user.dto.SignUpForm;
 import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -13,13 +13,27 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     public void signUp(SignUpForm form) {
-        Optional<Users> optionalUser = userRepository.findByUsername(form.getUsername());
+        String encryptPassword = passwordEncoder.encode(form.getPassword());
+        SignUpForm encryptSignUpForm = new SignUpForm(form, encryptPassword);
 
-        if (optionalUser.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 유저");
+        userRepository.save(new Users(encryptSignUpForm));
+    }
+
+
+    public void checkedEmailDuplication(SignUpForm form) {
+        Optional<Users> email = userRepository.findByEmail(form.getEmail());
+        if (email.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
         }
-        userRepository.save(new Users(form));
+    }
+    public void checkedUsernameDuplication(SignUpForm form) {
+        Optional<Users> username = userRepository.findByUsername(form.getUsername());
+        if (username.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+        }
     }
 }
