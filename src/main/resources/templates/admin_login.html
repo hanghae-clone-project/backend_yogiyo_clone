@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" th:href="@{/css/login_style.css}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<script>
+    function signup() {
+        window.location.href = '/admin/signup';
+    }
+</script>
+<body>
+<form class="login">
+    <span style="text-align: center; font-size: 30px; color: white;">로그인</span>
+    <span>Email</span>
+    <input type="email" placeholder="Email Address">
+    <span>Password</span>
+    <input type="password" placeholder="Password">
+    <p>
+        <label>
+            <input type="checkbox"> 로그인 상태 유지
+        </label>
+        <a href="#none" class="btn-forgot">비밀번호 찾기</a>
+    </p>
+    <button>로그인</button>
+    <button onclick="javascript:signup();" type="button" class="a">회원가입</button>
+</form>
+</body>
+</html>
