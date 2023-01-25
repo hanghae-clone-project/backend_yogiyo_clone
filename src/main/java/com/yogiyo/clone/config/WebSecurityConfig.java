@@ -17,6 +17,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+    private static final String[] test_url = {
+            "/admin/**"
+    };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -38,6 +42,7 @@ public class WebSecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers("/users/**").permitAll()
+                .antMatchers(test_url).permitAll()
                 .anyRequest().authenticated();
                 // JWT 인증/인가 필터 구현체
 
