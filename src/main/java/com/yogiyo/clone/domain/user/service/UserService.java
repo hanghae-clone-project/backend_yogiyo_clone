@@ -17,18 +17,23 @@ public class UserService {
 
 
     public void signUp(SignUpForm form) {
-        Optional<Users> username = userRepository.findByUsername(form.getUsername());
-        if (username.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
-        }
-        Optional<Users> email = userRepository.findByEmail(form.getEmail());
-        if (email.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
-        }
-
         String encryptPassword = passwordEncoder.encode(form.getPassword());
         SignUpForm encryptSignUpForm = new SignUpForm(form, encryptPassword);
 
         userRepository.save(new Users(encryptSignUpForm));
+    }
+
+
+    public void checkedEmailDuplication(SignUpForm form) {
+        Optional<Users> email = userRepository.findByEmail(form.getEmail());
+        if (email.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+    }
+    public void checkedUsernameDuplication(SignUpForm form) {
+        Optional<Users> username = userRepository.findByUsername(form.getUsername());
+        if (username.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+        }
     }
 }

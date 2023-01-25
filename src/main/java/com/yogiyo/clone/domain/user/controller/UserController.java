@@ -22,6 +22,19 @@ public class UserController {
     @PostMapping("/users/signup")
     public ResponseEntity<SignUpResponseMessage> createUser(@Validated @RequestBody SignUpForm signUpForm) {
 
+        try {
+            userService.checkedEmailDuplication(signUpForm);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new SignUpResponseMessage(BAD_REQUEST.value(),"중복 이메일"), BAD_REQUEST);
+
+        }
+
+        try {
+            userService.checkedUsernameDuplication(signUpForm);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new SignUpResponseMessage(BAD_REQUEST.value(),"중복 닉네임"), BAD_REQUEST);
+        }
+
         userService.signUp(signUpForm);
 
         return new ResponseEntity<>(new SignUpResponseMessage(OK.value(), "회원 가입 완료"), OK);
