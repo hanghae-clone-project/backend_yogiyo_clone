@@ -1,6 +1,6 @@
 package com.yogiyo.clone.security;
 
-import com.yogiyo.clone.domain.user.entity.User;
+import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +13,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class UserDetailImpl implements UserDetails {
 
-    private final User user;
+    private final Users user;
     private final String username;
 
     @Override
@@ -59,7 +59,7 @@ public class UserDetailImpl implements UserDetails {
         return false;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return this.user;
     }
 }

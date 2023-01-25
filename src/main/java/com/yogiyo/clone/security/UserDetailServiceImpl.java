@@ -1,6 +1,6 @@
 package com.yogiyo.clone.security;
 
-import com.yogiyo.clone.domain.user.entity.User;
+import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +16,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(() ->
+        Users user = userRepository.findByUsername(username).orElseThrow(() ->
                 new UsernameNotFoundException("cannot found user"));
 
         return new UserDetailImpl(user, user.getUsername());
