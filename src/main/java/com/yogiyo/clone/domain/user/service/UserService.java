@@ -17,11 +17,15 @@ public class UserService {
 
 
     public void signUp(SignUpForm form) {
-        Optional<Users> optionalUser = userRepository.findByUsername(form.getUsername());
-
-        if (optionalUser.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 유저");
+        Optional<Users> username = userRepository.findByUsername(form.getUsername());
+        if (username.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
         }
+        Optional<Users> email = userRepository.findByEmail(form.getEmail());
+        if (email.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+
         String encryptPassword = passwordEncoder.encode(form.getPassword());
         SignUpForm encryptSignUpForm = new SignUpForm(form, encryptPassword);
 
