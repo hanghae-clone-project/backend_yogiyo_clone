@@ -4,8 +4,8 @@ import com.yogiyo.clone.domain.user.dto.SignUpForm;
 import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -13,6 +13,8 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     public void signUp(SignUpForm form) {
         Optional<Users> optionalUser = userRepository.findByUsername(form.getUsername());
@@ -20,6 +22,9 @@ public class UserService {
         if (optionalUser.isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 유저");
         }
-        userRepository.save(new Users(form));
+        String encryptPassword = passwordEncoder.encode(form.getPassword());
+        SignUpForm encryptSignUpForm = new SignUpForm(form, encryptPassword);
+
+        userRepository.save(new Users(encryptSignUpForm));
     }
 }
