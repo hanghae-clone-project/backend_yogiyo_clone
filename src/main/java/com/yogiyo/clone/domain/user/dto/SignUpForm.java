@@ -12,8 +12,8 @@ import javax.validation.constraints.Pattern;
 public class SignUpForm {
 
     @NotBlank
-    @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[0-9]).{4,15}$",
-             message = "회원 가입 실패 / 아이디는 4 ~ 15자 사이 그리고 영문, 숫자를 포함해야 합니다.")
+    @Pattern(regexp = "^[0-9a-zA-Zㄱ-ㅎ가-힣]{4,12}$",
+             message = "회원 가입 실패 / 닉네임은 4 ~ 12자 사이 한글, 영문, 숫자만 가능합니다.")
     private String username;
 
     @Email(message = "회원 가입 실패 / 이메일 형식으로 입력해야 합니다.")
