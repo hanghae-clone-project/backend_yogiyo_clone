@@ -1,5 +1,6 @@
 package com.yogiyo.clone.domain.user.service;
 
+import com.yogiyo.clone.domain.user.dto.LoginForm;
 import com.yogiyo.clone.domain.user.dto.SignUpForm;
 import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
@@ -35,5 +36,16 @@ public class UserService {
         if (username.isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
         }
+    }
+
+    public Users login(LoginForm form) {
+        Users users = userRepository.findByEmail(form.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 아이디"));
+
+        if (!passwordEncoder.matches(form.getPassword(), users.getPassword())) {
+            throw new IllegalArgumentException("올바르지 않은 비밀번호");
+        }
+
+        return users;
     }
 }
