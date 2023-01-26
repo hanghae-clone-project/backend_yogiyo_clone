@@ -1,6 +1,7 @@
 package com.yogiyo.clone.domain.user.entity;
 
 import com.yogiyo.clone.domain.user.dto.SignUpForm;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,5 +31,13 @@ public class Users {
         this.email = signUpForm.getEmail();
         this.password = signUpForm.getPassword();
         this.userRole = USER;
+    }
+
+    @Builder
+    public Users(String username, String email, String password, UserRole userRole) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.userRole = userRole;
     }
 }
