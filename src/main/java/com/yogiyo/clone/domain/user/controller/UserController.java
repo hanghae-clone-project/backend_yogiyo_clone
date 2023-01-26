@@ -9,7 +9,10 @@ import com.yogiyo.clone.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,5 +50,10 @@ public class UserController {
         response.addHeader(AUTHORIZATION_HEADER, jwtUtil.createToken(users.getUsername()));
 
         return new ResponseEntity<>(new SignUpResponseMessage(OK.value(), "로그인 완료"),OK);
+    }
+    @GetMapping("/auth/test")
+    public String authTest(@AuthenticationPrincipal UserDetails userDetails) {
+
+        return "username : " + userDetails.getUsername();
     }
 }

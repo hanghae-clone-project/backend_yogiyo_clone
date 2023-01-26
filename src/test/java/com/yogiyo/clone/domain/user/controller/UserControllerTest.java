@@ -1,10 +1,11 @@
 package com.yogiyo.clone.domain.user.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yogiyo.clone.domain.user.entity.UserRole;
 import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import javax.annotation.PostConstruct;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -35,6 +34,10 @@ class UserControllerTest {
     @Autowired
     MockMvc mvc;
 
+    @AfterEach
+    void afterEach() {
+        userRepository.deleteAll();
+    }
 
     @DisplayName("회원 가입 성공 - 회원가입 요청 시 - 상태코드 201, 회원 엔티티가 저장된다.")
     @Test
@@ -94,7 +97,7 @@ class UserControllerTest {
         Users initUser = Users.builder()
                 .password(passwordEncoder.encode("123456Aa"))
                 .userRole(UserRole.USER)
-                .email("success@email.com")
+                .email("success1@email.com")
                 .username("test123")
                 .build();
 
@@ -103,7 +106,7 @@ class UserControllerTest {
         //when
         mvc.perform(MockMvcRequestBuilders.post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\": \"success@email.com\", \"password\": \"123456Aa\"}"))
+                        .content("{\"email\": \"success1@email.com\", \"password\": \"123456Aa\"}"))
                 //then
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.header().exists("Authorization"));
