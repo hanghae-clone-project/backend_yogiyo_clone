@@ -1,10 +1,7 @@
 package com.yogiyo.clone.domain.user.controller;
 
-import com.yogiyo.clone.domain.user.entity.UserRole;
-import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @AutoConfigureMockMvc
@@ -34,8 +31,8 @@ class UserControllerTest {
     @Autowired
     MockMvc mvc;
 
-    @AfterEach
-    void afterEach() {
+    @BeforeEach
+    void beforeEach() {
         userRepository.deleteAll();
     }
 
@@ -80,6 +77,7 @@ class UserControllerTest {
     @DisplayName("회원 가입 - 회원 가입에 필요한 필드 규칙 미준수 시 - 상태 코드 400, 예외 메시지 반환")
     @Test
     void test3() throws Exception {
+        //JsonPath 표현식
         String expectedExceptionMessage = "$.[?(@.messages == ['%s'])]";
 
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
@@ -94,14 +92,10 @@ class UserControllerTest {
     @Test
     void test4() throws Exception {
         //given
-        Users initUser = Users.builder()
-                .password(passwordEncoder.encode("123456Aa"))
-                .userRole(UserRole.USER)
-                .email("success1@email.com")
-                .username("test123")
-                .build();
-
-        userRepository.save(initUser);
+        mvc.perform(MockMvcRequestBuilders.post("/users/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"username\" : \"abc1234\", \"email\": \"success1@email.com\", \"password\": \"123456Aa\"}"))
+                        .andReturn();
 
         //when
         mvc.perform(MockMvcRequestBuilders.post("/users/login")
@@ -117,18 +111,16 @@ class UserControllerTest {
     @Test
     void test5() throws Exception {
         //given
-        Users initUser = Users.builder()
-                .password(passwordEncoder.encode("123456Aa"))
-                .userRole(UserRole.USER)
-                .email("login@email.com")
-                .username("loginfail123")
-                .build();
+        mvc.perform(MockMvcRequestBuilders.post("/users/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"username\" : \"abc1234\", \"email\": \"login@email.com\", \"password\": \"123456Aa\"}"))
+                .andReturn();
 
+        //JsonPath 표현식
         String expectedExceptionMessage = "$.[?(@.message == '%s')]";
 
-        userRepository.save(initUser);
-
         //when - 비밀번호 불일치
+
         mvc.perform(MockMvcRequestBuilders.post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\": \"login@email.com\", \"password\": \"incorrectPwd\"}"))
