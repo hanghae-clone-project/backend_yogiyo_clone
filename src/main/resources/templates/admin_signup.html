@@ -7,18 +7,40 @@
   <link type="text/css" th:href="@{/css/signup_style.css}" rel="stylesheet">
   <title>Document</title>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  function signup() {
+    let data = JSON.stringify({
+      "username":$("#username").val(),
+      "password":$("#password").val(),
+      "email":$("#email").val()
+    });
+
+      $.ajax({
+        url:"/users/signup",
+        type:"POST",
+        data:data,
+        contentType:"application/json",
+        success: function(response) {
+          alert("회원가입이 정상적으로 처리되었습니다.");
+          window.location.href = '/admin/login';
+        },
+        error:function(response) {
+          alert("회원가입에 실패하였습니다.");
+        }
+      })
+  }
+</script>
 <body>
 <form class="login">
   <span style="text-align: center; font-size: 30px; color: white;">회원가입을 진행해주세요!</span>
-  <span>Email</span>
-  <input type="email" placeholder="email@example.com">
+  <span>ID</span>
+  <input type="text" placeholder="아이디 입력" name="username" style="color:white" id="username">
+  <span>EMAIL</span>
+  <input type="email" name="email" placeholder="Email" style="color:white;" id="email">
   <span>Password</span>
-  <input type="password" placeholder="비밀번호 설정">
-  <span>Password Check</span>
-  <input type="password" placeholder="비밀번호를 다시 입력해주세요">
-  <span>Name</span>
-  <input type="text" placeholder="이름을 입력해주세요">
-  <button>회원가입</button>
+  <input type="password" placeholder="비밀번호 설정" name="password" style="color:white" id="password">
+  <button type="button" onclick="javascript:signup();">회원가입</button>
 </form>
 </body>
 </html>

@@ -68,6 +68,19 @@
     transform: translate(-1px);
 }
 
+.icon-parent {
+    position: relative;
+}
+
+.icon-bullet::after {
+    content: "";
+    position: absolute;
+    height: 0.7em;
+    width: 0.7em;
+    background-color: #f44336;
+    border-radius: 50%;
+}
+
 @media (max-width: 760px) {
     .sidebar {
         position: static;
