@@ -14,7 +14,7 @@ public class AdminApiController {
 
     private final AdminApiService adminApiService;
 
-    @GetMapping("/getMenuList")
+    @GetMapping("/store-menu")
     public List<AdminMenuResponseDto> getMenuList() {
         return adminApiService.getMenuList();
     }
