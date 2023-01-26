@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 
 import static com.yogiyo.clone.security.jwt.JwtUtil.AUTHORIZATION_HEADER;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestController
@@ -31,22 +30,12 @@ public class UserController {
     @PostMapping("/users/signup")
     public ResponseEntity<SignUpResponseMessage> createUser(@Validated @RequestBody SignUpForm signUpForm) {
 
-        try {
-            userService.checkedEmailDuplication(signUpForm);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new SignUpResponseMessage(BAD_REQUEST.value(),"중복 이메일"), BAD_REQUEST);
-
-        }
-
-        try {
-            userService.checkedUsernameDuplication(signUpForm);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new SignUpResponseMessage(BAD_REQUEST.value(),"중복 닉네임"), BAD_REQUEST);
-        }
+        userService.checkedEmailDuplication(signUpForm);
+        userService.checkedUsernameDuplication(signUpForm);
 
         userService.signUp(signUpForm);
 
-        return new ResponseEntity<>(new SignUpResponseMessage(OK.value(), "회원 가입 완료"), OK);
+        return new ResponseEntity<>(new SignUpResponseMessage(CREATED.value(), "회원 가입 완료"), CREATED);
     }
 
     @PostMapping("/users/login")
