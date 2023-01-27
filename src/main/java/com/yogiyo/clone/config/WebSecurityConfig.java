@@ -35,7 +35,7 @@ public class WebSecurityConfig {
 
     private static final List<String> permitHeader = List.of("Authorization","Content-Type");
 
-    private static final List<String> permitMethod = List.of("GET","POST","OPTIONS");
+//    private static final List<String> permitMethod = List.of("GET","POST","OPTIONS");
 
     private final JwtUtil jwtUtil;
 
@@ -77,8 +77,9 @@ public class WebSecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(permitOrigin);
-        config.setAllowedMethods(permitMethod);
+        config.addAllowedMethod("*");
         config.setAllowedHeaders(permitHeader);
+        config.setAllowCredentials(true);
 
         corsConfigurationSource.registerCorsConfiguration("/**", config);
 
