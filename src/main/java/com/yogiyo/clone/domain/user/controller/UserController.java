@@ -50,8 +50,9 @@ public class UserController {
 
         return new ResponseEntity<>(new SignUpResponseMessage(OK.value(), "로그인 완료"),OK);
     }
+
     @GetMapping("/")
-    public String indexPage() {
+    public String healthCheck() {
 
         return "welcome yogiyo";
     }
