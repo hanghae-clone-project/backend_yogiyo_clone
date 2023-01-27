@@ -34,6 +34,13 @@ public class Users extends TimeStamped {
         this.userRole = USER;
     }
 
+    public Users(SignUpForm signUpForm, UserRole userRole) {
+        this.username = signUpForm.getUsername();
+        this.email = signUpForm.getEmail();
+        this.password = signUpForm.getPassword();
+        this.userRole = userRole;
+    }
+
     @Builder
     public Users(String username, String email, String password, UserRole userRole) {
         this.username = username;

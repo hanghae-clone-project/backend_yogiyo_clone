@@ -25,6 +25,7 @@ public class Menu extends BaseEntity {
     private String details;
 
     private int price;
+    private String storeName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
@@ -36,6 +37,7 @@ public class Menu extends BaseEntity {
         this.details = menuAddRequestDto.getDetails();
         this.price = menuAddRequestDto.getPrice();
         this.store = store;
+        this.storeName = store.getStoreName();
 //        this.deliveryTime = menu.getDeliveryTime;
     }
 

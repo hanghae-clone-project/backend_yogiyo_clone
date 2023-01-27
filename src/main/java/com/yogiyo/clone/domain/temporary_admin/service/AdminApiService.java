@@ -46,4 +46,15 @@ public class AdminApiService {
 
         return new MenuAddResponseDto(menu);
     }
+
+    @Transactional
+    public List<StoreAddResponseDto> getStoreList() {
+        List<StoreAddResponseDto> storeList = new ArrayList<>();
+        List<Store> stores = adminApiRepository.findAll();
+        for (Store store : stores) {
+            storeList.add(new StoreAddResponseDto(store));
+        }
+
+        return storeList;
+    }
 }
