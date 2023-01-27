@@ -9,14 +9,15 @@ import java.util.stream.Collectors;
 @Getter
 public class AdminMenuResponseDto {
 
-    private Long store_id;
+    private Long storeId;
 
-    private String store_name;
+    private String storeName;
+
     private List<AdminMenuListResponseDto> menuList;
 
     public AdminMenuResponseDto(Store store) {
-        this.store_id = store.getId();
-        this.store_name = store.getStore_name();
+        this.storeId = store.getId();
+        this.storeName = store.getStoreName();
         this.menuList = store.getMenu().stream().map(AdminMenuListResponseDto::new).collect(Collectors.toList());
     }
 
