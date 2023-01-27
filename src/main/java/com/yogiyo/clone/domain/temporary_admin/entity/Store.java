@@ -2,6 +2,7 @@ package com.yogiyo.clone.domain.temporary_admin.entity;
 
 import com.yogiyo.clone.domain.temporary_admin.dto.StoreAddRequestDto;
 import com.yogiyo.clone.domain.temporary_admin.dto.StoreAddResponseDto;
+import com.yogiyo.clone.util.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Store {
+public class Store extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
