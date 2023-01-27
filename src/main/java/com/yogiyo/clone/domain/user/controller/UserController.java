@@ -9,8 +9,6 @@ import com.yogiyo.clone.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 
 import static com.yogiyo.clone.security.jwt.JwtUtil.AUTHORIZATION_HEADER;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @Slf4j
 @RestController
@@ -51,9 +50,9 @@ public class UserController {
 
         return new ResponseEntity<>(new SignUpResponseMessage(OK.value(), "로그인 완료"),OK);
     }
-    @GetMapping("/auth/test")
-    public String authTest(@AuthenticationPrincipal UserDetails userDetails) {
+    @GetMapping("/")
+    public String indexPage() {
 
-        return "username : " + userDetails.getUsername();
+        return "welcome yogiyo";
     }
 }
