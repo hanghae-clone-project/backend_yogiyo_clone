@@ -7,5 +7,14 @@ import lombok.Setter;
 @Setter
 public class StoreAddRequestDto {
 
-    private String store_name;
+    private Long id;
+
+    private String imageUrl;
+
+    private String storeName;
+
+    private int score;
+
+//    private int deliveryTime;
+
 }
