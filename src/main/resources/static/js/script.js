@@ -30,6 +30,22 @@ function menu_add() {
     })
 }
 
+function menu_list() {
+    $("#menu_name").text("메뉴 목록");
+    $.ajax({
+        type:"GET",
+        url:"/admin/menu-list",
+        dataType:"html",
+        async:true,
+        beforeSend:function (xhr) {
+            xhr.setRequestHeader("Authorization",localStorage.getItem("token"));
+        },
+        success:function(response) {
+            $("#feature").replaceWith(response);
+        }
+    })
+}
+
 function order_list() {
     $("#menu_name").text("주문 목록");
     $.ajax({

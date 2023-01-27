@@ -1,5 +1,6 @@
 package com.yogiyo.clone.domain.user.dto;
 
+import com.yogiyo.clone.domain.user.entity.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,10 +25,11 @@ public class SignUpForm {
              message = "비밀번호는 8 ~ 15자 사이 그리고 소문자, 대문자, 숫자를 포함해야 합니다.")
     private String password;
 
+    private String userRole = "";
+
     public SignUpForm(SignUpForm form, String encryptPassword) {
         this.username = form.getUsername();
         this.email = form.getEmail();
         this.password = encryptPassword;
-
     }
 }

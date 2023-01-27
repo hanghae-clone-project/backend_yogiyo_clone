@@ -3,6 +3,7 @@ package com.yogiyo.clone.domain.user.service;
 import com.yogiyo.clone.domain.user.dto.LoginForm;
 import com.yogiyo.clone.domain.user.dto.SignUpForm;
 import com.yogiyo.clone.domain.user.dto.UserInfoDto;
+import com.yogiyo.clone.domain.user.entity.UserRole;
 import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import com.yogiyo.clone.exception.message.ExceptionMessage;
@@ -27,8 +28,10 @@ public class UserService {
     public void signUp(SignUpForm form) {
         String encryptPassword = passwordEncoder.encode(form.getPassword());
         SignUpForm encryptSignUpForm = new SignUpForm(form, encryptPassword);
-
-        userRepository.save(new Users(encryptSignUpForm));
+        if (!form.getUserRole().equals(""))
+            userRepository.save(new Users(encryptSignUpForm, UserRole.OWNER));
+        else
+            userRepository.save(new Users(encryptSignUpForm));
     }
 
 

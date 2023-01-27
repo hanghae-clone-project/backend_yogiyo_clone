@@ -1,13 +1,17 @@
 package com.yogiyo.clone.domain.temporary_admin.controller;
 
+import com.yogiyo.clone.domain.temporary_admin.dto.StoreAddResponseDto;
 import com.yogiyo.clone.domain.temporary_admin.service.AdminApiService;
 import com.yogiyo.clone.domain.user.dto.LoginForm;
 import com.yogiyo.clone.domain.user.dto.UserInfoDto;
+import com.yogiyo.clone.domain.user.entity.UserRole;
 import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.service.UserService;
+import com.yogiyo.clone.security.UserDetailsImpl;
 import com.yogiyo.clone.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,13 +62,19 @@ public class AdminController {
         session.setAttribute(AUTHORIZATION_HEADER, jwtUtil.createToken(users.getUsername()));
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("page/admin_main_page");
+        if (users.getUserRole().equals(UserRole.USER))
+            modelAndView.setViewName("authorization_fail");
+        else
+            modelAndView.setViewName("page/admin_main_page");
+        modelAndView.addObject("userRole",users.getUserRole());
 
         return modelAndView;
     }
 
     @GetMapping("/store-detail")
-    public String store_detail() {
+    public String store_detail(Model model) {
+        List<StoreAddResponseDto> storeList = adminApiService.getStoreList();
+        model.addAttribute("storeList", storeList);
         return "page/admin_store_detail";
     }
 
@@ -76,6 +86,11 @@ public class AdminController {
     @GetMapping("/menu-add")
     public String menu_add() {
         return "page/admin_menu_add";
+    }
+
+    @GetMapping("/menu-list")
+    public String menu_list() {
+        return "page/admin_menu_list";
     }
 
     @GetMapping("/order-list")
