@@ -1,16 +1,23 @@
 package com.yogiyo.clone.domain.temporary_admin.dto;
 
-import com.yogiyo.clone.domain.temporary_admin.entity.Store_menu;
+import com.yogiyo.clone.domain.temporary_admin.entity.Menu;
 import lombok.Getter;
 
 @Getter
 public class MenuAddResponseDto {
 
     private Long id;
-    private String menu_name;
+    private String menuName;
+    private String imageUrl;
+    private String details;
+    private int price;
+//    private int deliveryTime;
 
-    public MenuAddResponseDto(Store_menu menu) {
+    public MenuAddResponseDto(Menu menu) {
         this.id = menu.getId();
-        this.menu_name = menu.getMenu_name();
+        this.menuName = menu.getMenuName();
+        this.imageUrl = menu.getImageUrl();
+        this.details = menu.getDetails();
+        this.price = menu.getPrice();
     }
 }

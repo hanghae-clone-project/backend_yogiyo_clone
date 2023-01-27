@@ -2,7 +2,7 @@ package com.yogiyo.clone.domain.temporary_admin.service;
 
 import com.yogiyo.clone.domain.temporary_admin.dto.*;
 import com.yogiyo.clone.domain.temporary_admin.entity.Store;
-import com.yogiyo.clone.domain.temporary_admin.entity.Store_menu;
+import com.yogiyo.clone.domain.temporary_admin.entity.Menu;
 import com.yogiyo.clone.domain.temporary_admin.repository.AdminApiMenuRepository;
 import com.yogiyo.clone.domain.temporary_admin.repository.AdminApiRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class AdminApiService {
     public MenuAddResponseDto addMenu(Long id, MenuAddRequestDto dto) {
         Store store = adminApiRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("상점 없음"));
 
-        Store_menu menu = new Store_menu(dto, store);
+        Menu menu = new Menu(dto, store);
         adminApiMenuRepository.save(menu);
 
         return new MenuAddResponseDto(menu);

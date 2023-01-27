@@ -8,5 +8,10 @@ import lombok.Setter;
 @Setter
 public class MenuAddRequestDto {
 
-    private String menu_name;
+    private String menuName;
+    private String imageUrl;
+    private String details;
+    private int price;
+//    private int deliveryTime;
+
 }
