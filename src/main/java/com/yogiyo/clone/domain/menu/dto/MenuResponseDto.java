@@ -6,18 +6,23 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MenuListDto {
-    private Long id;
-//    private String imageUrl;
-    private String menu_name;
-//    private int score;
-//    private int deliveryTime;
+public class MenuResponseDto {
 
-    public MenuListDto(Store_menu menu) {
+    private Long id;
+
+    private String menuName;
+
+//    private String imageUrl;
+
+//    private String details;
+
+//    private int price;
+
+    public MenuResponseDto(Store_menu menu) {
         this.id = menu.getId();
+        this.menuName = menu.getMenu_name();
 //        this.imageUrl = menu.getImageUrl;
-        this.menu_name = menu.getMenu_name();
-//        this.score = score;
-//        this.deliveryTime = deliveryTime;
+//        this.details = details;
+//        this.price = price;
     }
 }
