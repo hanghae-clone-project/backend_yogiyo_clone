@@ -29,7 +29,7 @@ public class WebSecurityConfig {
 
     private static final String[] test_url = {"/admin/login","/admin/signup", "/admin/main"};
 
-    private static final String[] permitUrl = {"/users/**", "/favicon.ico"}; // cors test 용 "/cors/**"
+    private static final String[] permitUrl = {"/users/**", "/favicon.ico","/"}; // cors test 용 "/cors/**"
 
     private static final List<String> permitOrigin = List.of("http://localhost:3000","http://localhost:8080");
 
@@ -78,7 +78,13 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(permitOrigin);
         config.addAllowedMethod("*");
-        config.setAllowedHeaders(permitHeader);
+//        config.setAllowedHeaders(permitHeader);
+
+        config.addAllowedHeader("Authorization");
+        config.addAllowedHeader("Content-Type");
+
+        config.addExposedHeader("Authorization");
+        config.addExposedHeader("Content-Type");
         config.setAllowCredentials(true);
 
         corsConfigurationSource.registerCorsConfiguration("/**", config);
