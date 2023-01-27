@@ -2,12 +2,16 @@ package com.yogiyo.clone.domain.user.service;
 
 import com.yogiyo.clone.domain.user.dto.LoginForm;
 import com.yogiyo.clone.domain.user.dto.SignUpForm;
+import com.yogiyo.clone.domain.user.dto.UserInfoDto;
 import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import com.yogiyo.clone.exception.message.ExceptionMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.yogiyo.clone.exception.message.ExceptionMessage.*;
@@ -50,5 +54,16 @@ public class UserService {
         }
 
         return users;
+    }
+
+    public List<UserInfoDto> getUserList() {
+        List<Users> users = userRepository.findAll();
+        List<UserInfoDto> userList = new ArrayList<>();
+
+        for (Users user : users) {
+            userList.add(new UserInfoDto(user));
+        }
+
+        return userList;
     }
 }
