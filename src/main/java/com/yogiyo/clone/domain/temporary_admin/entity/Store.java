@@ -1,7 +1,6 @@
 package com.yogiyo.clone.domain.temporary_admin.entity;
 
 import com.yogiyo.clone.domain.temporary_admin.dto.StoreAddRequestDto;
-import com.yogiyo.clone.domain.temporary_admin.dto.StoreAddResponseDto;
 import com.yogiyo.clone.util.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,13 +20,20 @@ public class Store extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String store_name;
+    private String storeName;
 
-    @OneToMany(mappedBy = "store")
-    private List<Store_menu> menu = new ArrayList<>();
+    private String imageUrl;
+
+    private int score;
+
+//    private int deliveryTime;
+
+    @OneToMany(mappedBy = "store", orphanRemoval = true)
+    private List<Menu> menu = new ArrayList<>();
 
     public Store(StoreAddRequestDto dto) {
-        this.store_name = dto.getStore_name();
+        this.storeName = dto.getStoreName();
+        this.imageUrl = dto.getImageUrl();
+        this.score = dto.getScore();
     }
-
 }

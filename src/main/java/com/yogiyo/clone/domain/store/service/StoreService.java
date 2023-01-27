@@ -4,7 +4,6 @@ import com.yogiyo.clone.domain.store.dto.StoreListDto;
 import com.yogiyo.clone.domain.store.dto.StoreResponseDto;
 import com.yogiyo.clone.domain.store.repository.StoreRepository;
 import com.yogiyo.clone.domain.temporary_admin.entity.Store;
-import com.yogiyo.clone.domain.temporary_admin.repository.AdminApiRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

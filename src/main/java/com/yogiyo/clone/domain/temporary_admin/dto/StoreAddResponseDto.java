@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StoreAddResponseDto {
 
-    private Long store_id;
-    private String store_name;
+    private Long storeId;
+    private String storeName;
 
     public StoreAddResponseDto(Store store) {
-        this.store_id = store.getId();
-        this.store_name = store.getStore_name();
+        this.storeId = store.getId();
+        this.storeName = store.getStoreName();
     }
 
 }

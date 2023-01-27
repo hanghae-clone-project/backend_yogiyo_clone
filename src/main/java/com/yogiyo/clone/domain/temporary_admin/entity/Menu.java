@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Store_menu extends BaseEntity {
+public class Menu extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +18,25 @@ public class Store_menu extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String menu_name;
+    private String menuName;
 
-    @ManyToOne
+    private String imageUrl;
+
+    private String details;
+
+    private int price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
-    public Store_menu(MenuAddRequestDto dto, Store store) {
-        this.menu_name = dto.getMenu_name();
+    public Menu(MenuAddRequestDto menuAddRequestDto, Store store) {
+        this.menuName = menuAddRequestDto.getMenuName();
+        this.imageUrl = menuAddRequestDto.getImageUrl();
+        this.details = menuAddRequestDto.getDetails();
+        this.price = menuAddRequestDto.getPrice();
         this.store = store;
+//        this.deliveryTime = menu.getDeliveryTime;
     }
 
 }
