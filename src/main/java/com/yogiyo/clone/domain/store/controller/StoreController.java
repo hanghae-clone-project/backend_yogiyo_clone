@@ -2,6 +2,7 @@ package com.yogiyo.clone.domain.store.controller;
 
 import com.yogiyo.clone.domain.store.dto.StoreDataDto;
 import com.yogiyo.clone.domain.store.dto.StoreListDto;
+import com.yogiyo.clone.domain.store.dto.StoreResponseDto;
 import com.yogiyo.clone.domain.store.service.StoreService;
 import com.yogiyo.clone.domain.temporary_admin.service.AdminApiService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class StoreController {
 
     private final StoreService storeService;
 
+    //가게 전체 조회
     @GetMapping
     public ResponseEntity<StoreDataDto> storeList() {
         List<StoreListDto> storeList = storeService.getStoreList();
@@ -28,10 +30,11 @@ public class StoreController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    //가게 단건 조회
     @GetMapping("/{storeId}")
     public ResponseEntity<StoreDataDto> toStore(@PathVariable Long storeId) {
-        // 서비스 로직
-        StoreDataDto storeDataDto = new StoreDataDto();
+        StoreResponseDto foundStore = storeService.getStore(storeId);
+        StoreDataDto storeDataDto = new StoreDataDto(200,"가게 조회 완료", foundStore);
         return new ResponseEntity<>(storeDataDto, HttpStatus.OK);
     }
 
