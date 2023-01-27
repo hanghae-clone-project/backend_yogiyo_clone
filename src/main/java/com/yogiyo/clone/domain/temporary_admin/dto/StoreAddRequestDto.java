@@ -7,8 +7,6 @@ import lombok.Setter;
 @Setter
 public class StoreAddRequestDto {
 
-    private Long id;
-
     private String imageUrl;
 
     private String storeName;
