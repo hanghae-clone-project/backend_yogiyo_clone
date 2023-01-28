@@ -37,11 +37,11 @@ class TimeStampedTest {
         //given
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"타임스탬프엔티티\", \"email\": \"example@email.com\", \"password\": \"123456Aa\"}"))
+                        .content("{\"username\" : \"자몽\", \"email\": \"example@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isCreated());
 
         //when
-        Users findUser = userRepository.findByUsername("타임스탬프엔티티").get();
+        Users findUser = userRepository.findByUsername("자몽").get();
 
         //then
         Assertions.assertThat(findUser.getCreateAt()).isNotNull();
