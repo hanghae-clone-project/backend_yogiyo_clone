@@ -9,6 +9,7 @@ import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import com.yogiyo.clone.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,23 +44,35 @@ public class AdminApiService {
     }
 
     @Transactional
-    public MenuAddResponseDto addMenu(Long id, MenuAddRequestDto dto) {
+    public MenuAddResponseDto addMenu(Long id, MenuAddRequestDto dto, Users users) {
         Store store = adminApiRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("상점 없음"));
 
-        Menu menu = new Menu(dto, store);
+        Menu menu = new Menu(dto, store, users);
         adminApiMenuRepository.save(menu);
 
         return new MenuAddResponseDto(menu);
     }
 
     @Transactional
-    public List<StoreAddResponseDto> getStoreList() {
+    public List<StoreAddResponseDto> getStoreList(Users users) {
         List<StoreAddResponseDto> storeList = new ArrayList<>();
-        List<Store> stores = adminApiRepository.findAll();
+        List<Store> stores = adminApiRepository.findByUsers(users);
         for (Store store : stores) {
             storeList.add(new StoreAddResponseDto(store));
         }
 
         return storeList;
+    }
+
+    @Transactional
+    public List<MenuAddResponseDto>  getAdminMenuList(Users users) {
+        List<Menu> menus = adminApiMenuRepository.findByUserid(users.getId());
+        List<MenuAddResponseDto> menuList = new ArrayList<>();
+        for (Menu menu : menus) {
+            menuList.add(new MenuAddResponseDto(menu));
+        }
+
+        return menuList;
+
     }
 }

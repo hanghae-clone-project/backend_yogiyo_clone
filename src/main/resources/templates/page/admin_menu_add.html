@@ -8,50 +8,28 @@
                         <table class="table bg-light text-center">
                             <thead>
                             <tr class="text-muted">
-                                <th>번 호</th>
-                                <th>이 름</th>
-                                <th>연 봉</th>
-                                <th>일 시</th>
-                                <th>연락처</th>
+                                <th>등록번호</th>
+                                <th>가게이름</th>
+                                <th>이미지</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <th>1</th>
-                                <th>철수</th>
-                                <th>2000만원</th>
-                                <th>2020/07/04</th>
-                                <th><button type="button" class="btn btn-info btn-sm">메세지</button></th>
+                            <tbody th:each="store : ${storeList}">
+                            <tr th:id="${store.id}">
+                                <th th:text="${store.id}"></th>
+                                <th th:text="${store.storeName}"></th>
+                                <th th:text="${store.imageUrl}"></th>
+                                <th></th>
+                                <th><button type="button" class="btn btn-info btn-sm" th:onclick="|javascript:addMenuInfo('${store.id}')|">추가</button></th>
                             </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>철수</th>
-                                <th>2000만원</th>
-                                <th>2020/07/04</th>
-                                <th><button type="button" class="btn btn-info btn-sm">메세지</button></th>
+                            <tr th:id="'addStoretd' + ${store.id}" style="display:none">
+                                <td><input type="text" class="form-control" th:id="'menuInput' + ${store.id}" placeholder="메뉴 이름"></td>
+                                <td><input type="text" class="form-control" th:id="'menuPriceInput' + ${store.id}" placeholder="메뉴 가격"></td>
+                                <td><input type="text" class="form-control" th:id="'menuDetailsInput' + ${store.id}" placeholder="메뉴 설명"></td>
+                                <td><input type="text" class="form-control" th:id="'menuimageUrlInput' + ${store.id}" placeholder="메뉴 이미지 경로"></td>
+                                <td><button type="button" class="btn btn-danger btn-sm" th:onclick="|javascript:sendMenuInfo('${store.id}')|">등록</button></td>
                             </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>철수</th>
-                                <th>2000만원</th>
-                                <th>2020/07/04</th>
-                                <th><button type="button" class="btn btn-info btn-sm">메세지</button></th>
-                            </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>철수</th>
-                                <th>2000만원</th>
-                                <th>2020/07/04</th>
-                                <th><button type="button" class="btn btn-info btn-sm">메세지</button></th>
-                            </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>철수</th>
-                                <th>2000만원</th>
-                                <th>2020/07/04</th>
-                                <th><button type="button" class="btn btn-info btn-sm">메세지</button></th>
-                            </tr>
-                            </tbody>
                         </table>
                     </div>
                 </div>

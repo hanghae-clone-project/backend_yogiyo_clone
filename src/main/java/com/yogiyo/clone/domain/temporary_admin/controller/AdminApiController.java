@@ -28,6 +28,6 @@ public class AdminApiController {
 
     @PostMapping("/menu/{store_id}")
     public MenuAddResponseDto addMenu(@PathVariable Long store_id, @RequestBody MenuAddRequestDto dto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return adminApiService.addMenu(store_id, dto);
+        return adminApiService.addMenu(store_id, dto, userDetails.getUser());
     }
 }
