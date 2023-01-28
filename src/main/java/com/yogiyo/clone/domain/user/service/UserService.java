@@ -28,10 +28,13 @@ public class UserService {
     public void signUp(SignUpForm form) {
         String encryptPassword = passwordEncoder.encode(form.getPassword());
         SignUpForm encryptSignUpForm = new SignUpForm(form, encryptPassword);
-        if (!form.getUserRole().equals(""))
-            userRepository.save(new Users(encryptSignUpForm, UserRole.OWNER));
-        else
-            userRepository.save(new Users(encryptSignUpForm));
+
+        userRepository.save(new Users(encryptSignUpForm));
+
+//        if (!form.getUserRole().equals(""))
+//            userRepository.save(new Users(encryptSignUpForm, UserRole.OWNER));
+//        else
+//            userRepository.save(new Users(encryptSignUpForm));
     }
 
     public void checkedEmailDuplication(String email) {
