@@ -11,6 +11,7 @@ public class MenuAddResponseDto {
     private String imageUrl;
     private String details;
     private int price;
+    private String storeName;
 //    private int deliveryTime;
 
     public MenuAddResponseDto(Menu menu) {
@@ -19,5 +20,6 @@ public class MenuAddResponseDto {
         this.imageUrl = menu.getImageUrl();
         this.details = menu.getDetails();
         this.price = menu.getPrice();
+        this.storeName = menu.getStoreName();
     }
 }

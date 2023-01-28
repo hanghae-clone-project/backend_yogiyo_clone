@@ -204,3 +204,32 @@ function sendStoreInfo(id) {
         }
     })
 }
+
+function addMenuInfo(id) {
+    if ($("#addStoretd" + id).css("display") == "none")
+        $("#addStoretd" + id).show();
+    else
+        $("#addStoretd" + id).hide();
+}
+
+function sendMenuInfo(id) {
+    let data = {
+        "menuName":$("#menuInput" + id).val(),
+        "imageUrl":$("#menuimageUrlInput" + id).val(),
+        "details":$("#menuDetailsInput" + id).val(),
+        "price":$("#menuPriceInput" + id).val()
+    }
+    $.ajax({
+        type:"POST",
+        url:"/admin/menu/" + id,
+        dataType:"json",
+        contentType:"application/json",
+        data:JSON.stringify(data),
+        beforeSend:function (xhr) {
+            xhr.setRequestHeader("Authorization",localStorage.getItem("token"));
+        },
+        success:function(response) {
+            alert("메뉴가 등록되었습니다.");
+        }
+    })
+}

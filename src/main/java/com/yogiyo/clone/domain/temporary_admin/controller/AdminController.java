@@ -1,5 +1,6 @@
 package com.yogiyo.clone.domain.temporary_admin.controller;
 
+import com.yogiyo.clone.domain.temporary_admin.dto.MenuAddResponseDto;
 import com.yogiyo.clone.domain.temporary_admin.dto.StoreAddResponseDto;
 import com.yogiyo.clone.domain.temporary_admin.service.AdminApiService;
 import com.yogiyo.clone.domain.user.dto.LoginForm;
@@ -12,6 +13,7 @@ import com.yogiyo.clone.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,8 +74,8 @@ public class AdminController {
     }
 
     @GetMapping("/store-detail")
-    public String store_detail(Model model) {
-        List<StoreAddResponseDto> storeList = adminApiService.getStoreList();
+    public String store_detail(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<StoreAddResponseDto> storeList = adminApiService.getStoreList(userDetails.getUser());
         model.addAttribute("storeList", storeList);
         return "page/admin_store_detail";
     }
@@ -84,12 +86,16 @@ public class AdminController {
     }
 
     @GetMapping("/menu-add")
-    public String menu_add() {
+    public String menu_add(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<StoreAddResponseDto> storeList = adminApiService.getStoreList(userDetails.getUser());
+        model.addAttribute("storeList",storeList);
         return "page/admin_menu_add";
     }
 
     @GetMapping("/menu-list")
-    public String menu_list() {
+    public String menu_list(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<MenuAddResponseDto> menuList = adminApiService.getAdminMenuList(userDetails.getUser());
+        model.addAttribute("menuList", menuList);
         return "page/admin_menu_list";
     }
 
