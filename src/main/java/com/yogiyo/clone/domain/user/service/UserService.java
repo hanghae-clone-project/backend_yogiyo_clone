@@ -31,10 +31,10 @@ public class UserService {
 
         userRepository.save(new Users(encryptSignUpForm));
 
-//        if (!form.getUserRole().equals(""))
-//            userRepository.save(new Users(encryptSignUpForm, UserRole.OWNER));
-//        else
-//            userRepository.save(new Users(encryptSignUpForm));
+        if (!form.getUserRole().equals(""))
+            userRepository.save(new Users(encryptSignUpForm, UserRole.OWNER));
+        else
+            userRepository.save(new Users(encryptSignUpForm));
     }
 
     public void checkedEmailDuplication(String email) {
