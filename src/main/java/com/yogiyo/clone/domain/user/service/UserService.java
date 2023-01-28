@@ -64,7 +64,8 @@ public class UserService {
         List<UserInfoDto> userList = new ArrayList<>();
 
         for (Users user : users) {
-            userList.add(new UserInfoDto(user));
+            if (!user.getUserRole().equals(UserRole.USER))
+                userList.add(new UserInfoDto(user));
         }
 
         return userList;
