@@ -4,9 +4,9 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
@@ -47,7 +47,6 @@ public class JwtUtil {
             return bearerToken.substring(7);
         }
         return null;
-//        throw new NullPointerException("토큰이 존재하지 않습니다.");
     }
 
     // 토큰 생성

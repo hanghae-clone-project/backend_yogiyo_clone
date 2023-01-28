@@ -50,14 +50,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         SecurityContextHolder.setContext(context);
     }
 
-    public void jwtExceptionHandler(HttpServletResponse response, String msg, int statusCode) {
-        response.setStatus(statusCode);
+    public void jwtExceptionHandler(HttpServletResponse response, String message, int status) {
+        response.setStatus(status);
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
         try {
-            String json = new ObjectMapper().writeValueAsString(new SecurityExceptionDto(statusCode, msg));
+            String json = new ObjectMapper().writeValueAsString(new SecurityExceptionDto(status, message));
             response.getWriter().write(json);
-        } catch (Exception e) {
+        }
+
+        catch (Exception e) {
             log.error(e.getMessage());
         }
     }
