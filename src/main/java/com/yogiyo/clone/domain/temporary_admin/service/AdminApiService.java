@@ -5,6 +5,9 @@ import com.yogiyo.clone.domain.temporary_admin.entity.Store;
 import com.yogiyo.clone.domain.temporary_admin.entity.Menu;
 import com.yogiyo.clone.domain.temporary_admin.repository.AdminApiMenuRepository;
 import com.yogiyo.clone.domain.temporary_admin.repository.AdminApiRepository;
+import com.yogiyo.clone.domain.user.entity.Users;
+import com.yogiyo.clone.domain.user.repository.UserRepository;
+import com.yogiyo.clone.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,7 @@ public class AdminApiService {
 
     private final AdminApiRepository adminApiRepository;
     private final AdminApiMenuRepository adminApiMenuRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public List<AdminMenuResponseDto> getMenuList() {
@@ -32,8 +36,9 @@ public class AdminApiService {
     }
 
     @Transactional
-    public StoreAddResponseDto addStore(StoreAddRequestDto dto) {
-        Store store = adminApiRepository.saveAndFlush(new Store(dto));
+    public StoreAddResponseDto addStore(StoreAddRequestDto dto, Long user_id) {
+        Users users = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("유저 없음"));
+        Store store = adminApiRepository.saveAndFlush(new Store(dto, users));
         return new StoreAddResponseDto(store);
     }
 

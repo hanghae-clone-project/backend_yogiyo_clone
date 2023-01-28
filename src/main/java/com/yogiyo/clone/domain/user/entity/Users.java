@@ -1,5 +1,7 @@
 package com.yogiyo.clone.domain.user.entity;
 
+import com.yogiyo.clone.domain.temporary_admin.entity.Menu;
+import com.yogiyo.clone.domain.temporary_admin.entity.Store;
 import com.yogiyo.clone.domain.user.dto.SignUpForm;
 import com.yogiyo.clone.util.TimeStamped;
 import lombok.Builder;
@@ -8,6 +10,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.yogiyo.clone.domain.user.entity.UserRole.USER;
 
 @Getter
@@ -15,7 +20,9 @@ import static com.yogiyo.clone.domain.user.entity.UserRole.USER;
 @NoArgsConstructor
 public class Users extends TimeStamped {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="user_id")
     private Long id;
 
     private String username;
@@ -26,6 +33,9 @@ public class Users extends TimeStamped {
 
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
+
+    @OneToMany(mappedBy = "users", orphanRemoval = true)
+    private List<Store> store = new ArrayList<>();
 
     public Users(SignUpForm signUpForm) {
         this.username = signUpForm.getUsername();

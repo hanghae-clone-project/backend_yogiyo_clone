@@ -1,6 +1,7 @@
 package com.yogiyo.clone.domain.temporary_admin.entity;
 
 import com.yogiyo.clone.domain.temporary_admin.dto.StoreAddRequestDto;
+import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.util.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,9 +32,20 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", orphanRemoval = true)
     private List<Menu> menu = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private Users users;
+
     public Store(StoreAddRequestDto dto) {
         this.storeName = dto.getStoreName();
         this.imageUrl = dto.getImageUrl();
         this.score = dto.getScore();
+    }
+
+    public Store(StoreAddRequestDto dto, Users users) {
+        this.storeName = dto.getStoreName();
+        this.imageUrl = dto.getImageUrl();
+        this.score = dto.getScore();
+        this.users = users;
     }
 }

@@ -99,7 +99,7 @@ public class AdminController {
     }
 
     @GetMapping("/store-add")
-    public String store_add(Model model) {
+    public String store_add(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<UserInfoDto> userList = userService.getUserList();
         model.addAttribute("userList",userList);
         return "page/admin_store_add";

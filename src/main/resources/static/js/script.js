@@ -192,7 +192,7 @@ function sendStoreInfo(id) {
     }
     $.ajax({
         type:"POST",
-        url:"/admin/store",
+        url:"/admin/store/" + id,
         dataType:"json",
         contentType:"application/json",
         data:JSON.stringify(data),
