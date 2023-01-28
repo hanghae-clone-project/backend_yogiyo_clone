@@ -2,6 +2,7 @@ package com.yogiyo.clone.domain.user.controller;
 
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,11 @@ class UserControllerTest {
 
     @BeforeEach
     void beforeEach() {
+        userRepository.deleteAll();
+    }
+
+    @AfterEach
+    void afterEach() {
         userRepository.deleteAll();
     }
 
