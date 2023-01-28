@@ -32,8 +32,8 @@ public class UserController {
     @PostMapping("/users/signup")
     public ResponseEntity<SignUpResponseMessage> createUser(@Validated @RequestBody SignUpForm signUpForm) {
 
-        userService.checkedEmailDuplication(signUpForm);
-        userService.checkedUsernameDuplication(signUpForm);
+        userService.checkedUsernameDuplication(signUpForm.getUsername());
+        userService.checkedEmailDuplication(signUpForm.getEmail());
 
         userService.signUp(signUpForm);
 

@@ -6,17 +6,17 @@ import com.yogiyo.clone.domain.user.dto.UserInfoDto;
 import com.yogiyo.clone.domain.user.entity.UserRole;
 import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
-import com.yogiyo.clone.exception.message.ExceptionMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.yogiyo.clone.exception.message.ExceptionMessage.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -34,16 +34,17 @@ public class UserService {
             userRepository.save(new Users(encryptSignUpForm));
     }
 
+    public void checkedEmailDuplication(String email) {
+        String findEmail = userRepository.findEmailByEmail(email);
 
-    public void checkedEmailDuplication(SignUpForm form) {
-        Optional<Users> email = userRepository.findByEmail(form.getEmail());
-        if (email.isPresent()) {
+        if (isExisted(findEmail)) {
             throw new IllegalArgumentException(EXISTED_EMAIL.getDescription());
         }
     }
-    public void checkedUsernameDuplication(SignUpForm form) {
-        Optional<Users> username = userRepository.findByUsername(form.getUsername());
-        if (username.isPresent()) {
+    public void checkedUsernameDuplication(String username) {
+        String findUsername = userRepository.findUsernameByUsername(username);
+
+        if (isExisted(findUsername)) {
             throw new IllegalArgumentException(EXISTED_USERNAME.getDescription());
         }
     }
@@ -57,6 +58,10 @@ public class UserService {
         }
 
         return users;
+    }
+
+    private boolean isExisted(String field) {
+        return field != null;
     }
 
     public List<UserInfoDto> getUserList() {
