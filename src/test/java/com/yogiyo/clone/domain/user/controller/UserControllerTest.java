@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static com.yogiyo.clone.exception.message.ExceptionMessage.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,7 +43,7 @@ class UserControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"abc1234\", \"email\": \"example@email.com\", \"password\": \"123456Aa\"}"))
+                        .content("{\"username\" : \"abc1234\", \"email\": \"example@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isCreated());
 
         Assertions.assertThat(userRepository.findByUsername("abc1234").isPresent()).isTrue();
@@ -55,22 +56,22 @@ class UserControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"example123\", \"email\": \"example1@email.com\", \"password\": \"123456Aa\"}"))
+                        .content("{\"username\" : \"example123\", \"email\": \"example1@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isCreated());
 
         //이메일 중복
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"example1234\", \"email\": \"example1@email.com\", \"password\": \"123456Aa\"}"))
+                        .content("{\"username\" : \"example1234\", \"email\": \"example1@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(expectedExceptionMessage, "이미 존재하는 이메일입니다.").exists());
+                .andExpect(jsonPath(expectedExceptionMessage, EXISTED_EMAIL.getDescription()).exists());
 
         //닉네임 중복
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"example123\", \"email\": \"example2@email.com\", \"password\": \"123456Aa\"}"))
+                        .content("{\"username\" : \"example123\", \"email\": \"example2@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(expectedExceptionMessage, "이미 존재하는 닉네임입니다.").exists());
+                .andExpect(jsonPath(expectedExceptionMessage, EXISTED_USERNAME.getDescription()).exists());
 
     }
 
@@ -82,9 +83,9 @@ class UserControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"abc@#\", \"email\": \"field2@email.com\", \"password\": \"123456Aa\"}"))
+                        .content("{\"username\" : \"abc@#\", \"email\": \"field2@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(expectedExceptionMessage, "닉네임은 4 ~ 12자 사이 그리고 한글, 영문, 숫자만 가능합니다.").exists());
+                .andExpect(jsonPath(expectedExceptionMessage, "닉네임은 2 ~ 12자 사이 그리고 한글, 영문, 숫자만 가능합니다.").exists());
 
     }
 
@@ -94,13 +95,13 @@ class UserControllerTest {
         //given
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"abc1234\", \"email\": \"success1@email.com\", \"password\": \"123456Aa\"}"))
+                        .content("{\"username\" : \"abc1234\", \"email\": \"success1@email.com\", \"password\": \"123456Aa#\"}"))
                         .andReturn();
 
         //when
         mvc.perform(MockMvcRequestBuilders.post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\": \"success1@email.com\", \"password\": \"123456Aa\"}"))
+                        .content("{\"email\": \"success1@email.com\", \"password\": \"123456Aa#\"}"))
                 //then
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.header().exists("Authorization"));
@@ -126,7 +127,7 @@ class UserControllerTest {
                         .content("{\"email\": \"login@email.com\", \"password\": \"incorrectPwd\"}"))
                 //then
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(expectedExceptionMessage, "아이디/비밀번호가 올바르지 않습니다.").exists());
+                .andExpect(jsonPath(expectedExceptionMessage, INCORRECT_SIGN_IN_TRY.getDescription()).exists());
 
         //when - 아이디 불일치
         mvc.perform(MockMvcRequestBuilders.post("/users/login")
@@ -134,6 +135,6 @@ class UserControllerTest {
                         .content("{\"email\": \"loginfail@email.com\", \"password\": \"123456Aa\"}"))
                 //then
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(expectedExceptionMessage, "아이디/비밀번호가 올바르지 않습니다.").exists());
+                .andExpect(jsonPath(expectedExceptionMessage, INCORRECT_SIGN_IN_TRY.getDescription()).exists());
     }
 }
