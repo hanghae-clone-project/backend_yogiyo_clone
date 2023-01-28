@@ -29,8 +29,6 @@ public class UserService {
         String encryptPassword = passwordEncoder.encode(form.getPassword());
         SignUpForm encryptSignUpForm = new SignUpForm(form, encryptPassword);
 
-        userRepository.save(new Users(encryptSignUpForm));
-
         if (!form.getUserRole().equals(""))
             userRepository.save(new Users(encryptSignUpForm, UserRole.OWNER));
         else
