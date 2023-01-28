@@ -81,7 +81,7 @@ class UserControllerTest {
 
     }
 
-    @DisplayName("회원 가입 - 회원 가입에 필요한 필드 규칙 미준수 시 - 상태 코드 400, 예외 메시지 반환")
+    @DisplayName("회원 가입 실패 - 회원 가입에 필요한 필드 규칙 미준수 시 - 상태 코드 400, 예외 메시지 반환")
     @Test
     void test3() throws Exception {
         //JsonPath 표현식
@@ -95,7 +95,7 @@ class UserControllerTest {
 
     }
 
-    @DisplayName("로그인 성공 - 케이스")
+    @DisplayName("로그인 성공 - 상태 코드 200, 응답으로 Header에 Authorization 반환")
     @Test
     void test4() throws Exception {
         //given
