@@ -187,22 +187,51 @@ function addStoreInfo(id) {
 }
 
 function sendStoreInfo(id) {
-    let data = {
-        "storeName":$("#storeInput" + id).val()
+    const image = $("#storeImgUrlInput" + id)[0];
+
+    if (image.files.length === 0) {
+        alert("파일을 선택해주세요");
+        return 1;
     }
+
+    const formData = new FormData();
+    formData.append("file", image.files[0]);
+
     $.ajax({
         type:"POST",
-        url:"/admin/store/" + id,
-        dataType:"json",
-        contentType:"application/json",
-        data:JSON.stringify(data),
+        url: "/admin/upload",
+        processData: false,
+        contentType: false,
+        cache: false,
+        enctype: 'multipart/form-data',
+        data: formData,
         beforeSend:function (xhr) {
             xhr.setRequestHeader("Authorization",localStorage.getItem("token"));
         },
-        success:function(response) {
-            alert("가게가 등록되었습니다.");
+        success: function(rtn){
+            let data = {
+                "storeName":$("#storeInput" + id).val(),
+                "imageUrl":rtn
+            }
+            $.ajax({
+                type:"POST",
+                url:"/admin/store/" + id,
+                dataType:"json",
+                contentType:"application/json",
+                data:JSON.stringify(data),
+                beforeSend:function (xhr) {
+                    xhr.setRequestHeader("Authorization",localStorage.getItem("token"));
+                },
+                success:function(response) {
+                    alert("가게가 등록되었습니다.");
+                }
+            })
+        },
+        err: function(err){
+            console.log("err:", err)
         }
     })
+
 }
 
 function addMenuInfo(id) {
@@ -213,23 +242,85 @@ function addMenuInfo(id) {
 }
 
 function sendMenuInfo(id) {
-    let data = {
-        "menuName":$("#menuInput" + id).val(),
-        "imageUrl":$("#menuimageUrlInput" + id).val(),
-        "details":$("#menuDetailsInput" + id).val(),
-        "price":$("#menuPriceInput" + id).val()
+
+    const image = $("#menuImgUrlInput" + id)[0];
+
+    if (image.files.length === 0) {
+        alert("파일을 선택해주세요");
+        return 1;
     }
+
+    const formData = new FormData();
+    formData.append("file", image.files[0]);
+
     $.ajax({
         type:"POST",
-        url:"/admin/menu/" + id,
-        dataType:"json",
-        contentType:"application/json",
-        data:JSON.stringify(data),
+        url: "/admin/upload",
+        processData: false,
+        contentType: false,
+        cache: false,
+        enctype: 'multipart/form-data',
+        data: formData,
         beforeSend:function (xhr) {
             xhr.setRequestHeader("Authorization",localStorage.getItem("token"));
         },
-        success:function(response) {
-            alert("메뉴가 등록되었습니다.");
+        success: function(rtn){
+            let data = {
+                "menuName":$("#menuInput" + id).val(),
+                "details":$("#menuDetailsInput" + id).val(),
+                "price":$("#menuPriceInput" + id).val(),
+                "imageUrl":rtn
+            }
+            $.ajax({
+                type:"POST",
+                url:"/admin/menu/" + id,
+                dataType:"json",
+                contentType:"application/json",
+                data:JSON.stringify(data),
+                beforeSend:function (xhr) {
+                    xhr.setRequestHeader("Authorization",localStorage.getItem("token"));
+                },
+                success:function(response) {
+                    alert("메뉴가 등록되었습니다.");
+                }
+            })
+        },
+        err: function(err){
+            console.log("err:", err)
         }
     })
+
+}
+
+function imageUpload(id, dirName) {
+    const image = $("#menuImgUrlInput" + id)[0];
+
+    if (image.files.length === 0) {
+        alert("파일을 선택해주세요");
+        return 1;
+    }
+
+    const formData = new FormData();
+    formData.append("file", image.files[0]);
+
+    $.ajax({
+        type:"POST",
+        url: "/admin/upload",
+        processData: false,
+        contentType: false,
+        cache: false,
+        enctype: 'multipart/form-data',
+        data: formData,
+        beforeSend:function (xhr) {
+            xhr.setRequestHeader("Authorization",localStorage.getItem("token"));
+        },
+        success: function(rtn){
+            console.log(rtn);
+            return rtn;
+        },
+        err: function(err){
+            console.log("err:", err)
+        }
+    })
+
 }
