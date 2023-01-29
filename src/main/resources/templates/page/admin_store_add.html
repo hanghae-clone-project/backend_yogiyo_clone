@@ -25,7 +25,7 @@
                                 <tr th:id="'addtd' + ${user.id}" style="display:none">
                                     <td></td>
                                     <td><input type="text" class="form-control" th:id="'storeInput' + ${user.id}" placeholder="가게 이름"></td>
-                                    <td></td>
+                                    <td><input type="file" name="menuImgUrlInput" th:id="'storeImgUrlInput' + ${user.id}"></td>
                                     <td><button type="button" class="btn btn-danger btn-sm" th:onclick="|javascript:sendStoreInfo('${user.id}')|">등록</button></td>
                                 </tr>
                                 </tbody>
