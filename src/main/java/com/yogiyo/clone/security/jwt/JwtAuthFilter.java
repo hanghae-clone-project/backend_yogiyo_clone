@@ -16,15 +16,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-
+    private static List<String> permitUrl = List.of("/users/login","/users/signup");
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        String uri = request.getRequestURI();
+        if (permitUrl.contains(uri)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String token = jwtUtil.resolveToken(request);
 
