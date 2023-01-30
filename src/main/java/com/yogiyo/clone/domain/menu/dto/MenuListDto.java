@@ -13,6 +13,7 @@ public class MenuListDto {
     private String details;
     private int price;
 //    private int deliveryTime;
+    private int amount;
 
     public MenuListDto(Menu menu) {
         this.id = menu.getId();
@@ -21,5 +22,6 @@ public class MenuListDto {
         this.details = menu.getDetails();
         this.price = menu.getPrice();
 //        this.deliveryTime = menu.getDeliveryTime;
+        this.amount = 1;
     }
 }
