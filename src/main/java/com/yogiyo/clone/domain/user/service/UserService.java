@@ -8,6 +8,7 @@ import com.yogiyo.clone.domain.user.entity.Users;
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,10 +53,10 @@ public class UserService {
 
     public Users login(LoginForm form) {
         Users users = userRepository.findByEmail(form.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException(INCORRECT_SIGN_IN_TRY.getDescription()));
+                .orElseThrow(() -> new BadCredentialsException(INCORRECT_SIGN_IN_TRY.getDescription()));
 
         if (!passwordEncoder.matches(form.getPassword(), users.getPassword())) {
-            throw new IllegalArgumentException(INCORRECT_SIGN_IN_TRY.getDescription());
+            throw new BadCredentialsException(INCORRECT_SIGN_IN_TRY.getDescription());
         }
 
         return users;

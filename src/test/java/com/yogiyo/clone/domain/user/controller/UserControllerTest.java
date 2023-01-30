@@ -43,7 +43,7 @@ class UserControllerTest {
         Assertions.assertThat(userRepository.findByUsername("abc1234").isPresent()).isTrue();
     }
 
-    @DisplayName("회원 가입 실패 - 아이디, 이메일 중복 시 - 상태코드 400, 예외 메시지를 반환한다. ")
+    @DisplayName("회원 가입 실패 - 아이디, 이메일 중복 시 - 상태코드 400, 예외 메시지 반환")
     @Test
     void test2() throws Exception {
         String expectedExceptionMessage = "$.[?(@.message == '%s')]";
@@ -83,7 +83,7 @@ class UserControllerTest {
 
     }
 
-    @DisplayName("로그인 성공 - 상태 코드 200, 응답으로 Header에 Authorization 반환")
+    @DisplayName("로그인 성공 - 상태 코드 200, 응답으로 Header - Authorization 반환")
     @Test
     void test4() throws Exception {
         String expression = "$.[?(@.username == '%s')]";
@@ -105,7 +105,7 @@ class UserControllerTest {
 
     }
 
-    @DisplayName("로그인 실패 - 비밀번호, 아이디 불일치 - 상태코드 400, 예외 메시지 반환")
+    @DisplayName("로그인 실패 - 비밀번호, 아이디 불일치 - 상태코드 401, 예외 메시지 반환")
     @Test
     void test5() throws Exception {
         //given
@@ -123,7 +123,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\": \"login@email.com\", \"password\": \"incorrectPwd\"}"))
                 //then
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath(expectedExceptionMessage, INCORRECT_SIGN_IN_TRY.getDescription()).exists());
 
         //when - 아이디 불일치
@@ -131,7 +131,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\": \"loginfail@email.com\", \"password\": \"123456Aa\"}"))
                 //then
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath(expectedExceptionMessage, INCORRECT_SIGN_IN_TRY.getDescription()).exists());
     }
 }
