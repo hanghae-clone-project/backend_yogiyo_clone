@@ -4,6 +4,7 @@ import com.yogiyo.clone.exception.dto.ExceptionResponseListMessage;
 import com.yogiyo.clone.exception.dto.ExceptionResponseMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -33,6 +35,12 @@ public class GlobalExceptionHandler {
         ExceptionResponseListMessage messages = new ExceptionResponseListMessage(BAD_REQUEST.value(), errorMessages);
         return new ResponseEntity<>(messages, HttpStatus.valueOf(messages.getStatus()));
 
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponseMessage> BadCredentialsExceptionHandle(BadCredentialsException exception) {
+        ExceptionResponseMessage message = new ExceptionResponseMessage(UNAUTHORIZED.value(), exception.getMessage());
+        return new ResponseEntity<>(message, HttpStatus.valueOf(message.getStatus()));
     }
 
 }

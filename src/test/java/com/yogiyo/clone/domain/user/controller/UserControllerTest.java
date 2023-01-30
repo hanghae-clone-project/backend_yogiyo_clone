@@ -2,8 +2,6 @@ package com.yogiyo.clone.domain.user.controller;
 
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.yogiyo.clone.exception.message.ExceptionMessage.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@Transactional
 @AutoConfigureMockMvc
 @SpringBootTest
 class UserControllerTest {
@@ -33,16 +32,6 @@ class UserControllerTest {
     @Autowired
     MockMvc mvc;
 
-    @BeforeEach
-    void beforeEach() {
-        userRepository.deleteAll();
-    }
-
-    @AfterEach
-    void afterEach() {
-        userRepository.deleteAll();
-    }
-
     @DisplayName("회원 가입 성공 - 회원가입 요청 시 - 상태코드 201, 회원 엔티티 저장 및 응답으로 닉네임 반환")
     @Test
     void test1() throws Exception {
@@ -54,20 +43,20 @@ class UserControllerTest {
         Assertions.assertThat(userRepository.findByUsername("abc1234").isPresent()).isTrue();
     }
 
-    @DisplayName("회원 가입 실패 - 아이디, 이메일 중복 시 - 상태코드 400, 예외 메시지를 반환한다. ")
+    @DisplayName("회원 가입 실패 - 아이디, 이메일 중복 시 - 상태코드 400, 예외 메시지 반환")
     @Test
     void test2() throws Exception {
         String expectedExceptionMessage = "$.[?(@.message == '%s')]";
 
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"example123\", \"email\": \"example1@email.com\", \"password\": \"123456Aa#\"}"))
+                        .content("{\"username\" : \"example123\", \"email\": \"example@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isCreated());
 
         //이메일 중복
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"example1234\", \"email\": \"example1@email.com\", \"password\": \"123456Aa#\"}"))
+                        .content("{\"username\" : \"example1234\", \"email\": \"example@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath(expectedExceptionMessage, EXISTED_EMAIL.getDescription()).exists());
 
@@ -94,7 +83,7 @@ class UserControllerTest {
 
     }
 
-    @DisplayName("로그인 성공 - 상태 코드 200, 응답으로 Header에 Authorization 반환")
+    @DisplayName("로그인 성공 - 상태 코드 200, 응답으로 Header - Authorization 반환")
     @Test
     void test4() throws Exception {
         String expression = "$.[?(@.username == '%s')]";
@@ -116,7 +105,7 @@ class UserControllerTest {
 
     }
 
-    @DisplayName("로그인 실패 - 비밀번호, 아이디 불일치 - 상태코드 400, 예외 메시지 반환")
+    @DisplayName("로그인 실패 - 비밀번호, 아이디 불일치 - 상태코드 401, 예외 메시지 반환")
     @Test
     void test5() throws Exception {
         //given
@@ -134,7 +123,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\": \"login@email.com\", \"password\": \"incorrectPwd\"}"))
                 //then
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath(expectedExceptionMessage, INCORRECT_SIGN_IN_TRY.getDescription()).exists());
 
         //when - 아이디 불일치
@@ -142,7 +131,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\": \"loginfail@email.com\", \"password\": \"123456Aa\"}"))
                 //then
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath(expectedExceptionMessage, INCORRECT_SIGN_IN_TRY.getDescription()).exists());
     }
 }
