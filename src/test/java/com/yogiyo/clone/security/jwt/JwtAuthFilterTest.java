@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.yogiyo.clone.security.jwt.JwtUtil.AUTHORIZATION_HEADER;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -18,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * 인증이 필요한 요청에 토큰에 따른 응답 결과 테스트
  */
+@Transactional
 @AutoConfigureMockMvc
 @SpringBootTest
 class JwtAuthFilterTest {

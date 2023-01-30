@@ -2,8 +2,6 @@ package com.yogiyo.clone.domain.user.controller;
 
 import com.yogiyo.clone.domain.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.yogiyo.clone.exception.message.ExceptionMessage.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@Transactional
 @AutoConfigureMockMvc
 @SpringBootTest
 class UserControllerTest {
@@ -32,16 +31,6 @@ class UserControllerTest {
 
     @Autowired
     MockMvc mvc;
-
-    @BeforeEach
-    void beforeEach() {
-        userRepository.deleteAll();
-    }
-
-    @AfterEach
-    void afterEach() {
-        userRepository.deleteAll();
-    }
 
     @DisplayName("회원 가입 성공 - 회원가입 요청 시 - 상태코드 201, 회원 엔티티 저장 및 응답으로 닉네임 반환")
     @Test
@@ -61,13 +50,13 @@ class UserControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"example123\", \"email\": \"example1@email.com\", \"password\": \"123456Aa#\"}"))
+                        .content("{\"username\" : \"example123\", \"email\": \"example@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isCreated());
 
         //이메일 중복
         mvc.perform(MockMvcRequestBuilders.post("/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\" : \"example1234\", \"email\": \"example1@email.com\", \"password\": \"123456Aa#\"}"))
+                        .content("{\"username\" : \"example1234\", \"email\": \"example@email.com\", \"password\": \"123456Aa#\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath(expectedExceptionMessage, EXISTED_EMAIL.getDescription()).exists());
 
