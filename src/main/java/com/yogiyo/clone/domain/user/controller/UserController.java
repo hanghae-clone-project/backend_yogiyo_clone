@@ -1,6 +1,7 @@
 package com.yogiyo.clone.domain.user.controller;
 
 import com.yogiyo.clone.domain.user.dto.LoginForm;
+import com.yogiyo.clone.domain.user.dto.LoginResponseMessage;
 import com.yogiyo.clone.domain.user.dto.SignUpForm;
 import com.yogiyo.clone.domain.user.dto.SignUpResponseMessage;
 import com.yogiyo.clone.domain.user.entity.Users;
@@ -41,14 +42,14 @@ public class UserController {
     }
 
     @PostMapping("/users/login")
-    public ResponseEntity<SignUpResponseMessage> loginUser(@RequestBody LoginForm loginForm,
+    public ResponseEntity<LoginResponseMessage> loginUser(@RequestBody LoginForm loginForm,
                                             HttpServletResponse response) {
 
 
-        Users users = userService.login(loginForm);
-        response.addHeader(AUTHORIZATION_HEADER, jwtUtil.createToken(users.getUsername()));
+        Users user = userService.login(loginForm);
+        response.addHeader(AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername()));
 
-        return new ResponseEntity<>(new SignUpResponseMessage(OK.value(), "로그인 완료"),OK);
+        return new ResponseEntity<>(new LoginResponseMessage(OK.value(), "로그인 완료", user.getUsername()),OK);
     }
 
     @GetMapping("/")
