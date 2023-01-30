@@ -40,7 +40,8 @@ jobs:
 
         # 테스트 환경 properties
       - name: make application.properties
-        run:
+        run: |
+          mkdir -p ./src/test/resources
           touch ./src/test/resources/application.properties
         shell: bash
 
