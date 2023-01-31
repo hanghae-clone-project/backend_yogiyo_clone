@@ -32,7 +32,8 @@ public class WebSecurityConfig {
 
     private static final String[] permitUrl = {"/users/**", "/favicon.ico","/"}; // cors test 용 "/cors/**"
 
-    private static final List<String> permitOrigin = List.of("http://localhost:3000","http://localhost:8080");
+    private static final List<String> permitOrigin =
+            List.of("http://localhost:3000","http://chaejung-clonecoding.s3-website.ap-northeast-2.amazonaws.com","http://localhost:8080");
 
     private static final List<String> permitHeader = List.of("Authorization","Content-Type");
 
