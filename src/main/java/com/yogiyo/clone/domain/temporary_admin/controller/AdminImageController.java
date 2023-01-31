@@ -19,4 +19,10 @@ public class AdminImageController {
         String fileName = awsS3Uploader.upload(multipartFile, "store");
         return fileName;
     }
+
+    @DeleteMapping("/delete")
+    public String delete(@RequestBody String fileName) throws IOException{
+        awsS3Uploader.delete(fileName);
+        return "이미지 삭제";
+    }
 }

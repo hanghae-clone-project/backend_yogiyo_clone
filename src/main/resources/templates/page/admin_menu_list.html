@@ -13,6 +13,7 @@
                 <th>가격</th>
                 <th>설명</th>
                 <th>이미지</th>
+                <th>삭제</th>
               </tr>
               </thead>
               <tbody th:each="menu : ${menuList}">
@@ -21,7 +22,8 @@
                 <td th:text="${menu.menuName}"></td>
                 <td th:text="${menu.price}"></td>
                 <td th:text="${menu.details}"></td>
-                <td><img th:src="${menu.imageUrl}"></td>
+                <td><img th:src="${menu.imageUrl}" style="width:50px;height:50px;"></td>
+                <td><button type="button" class="btn btn-info btn-sm" th:onclick="|javascript:deleteMenuInfo('${menu.id}')|">삭제</button></td>
               </tr>
               </tbody>
             </table>

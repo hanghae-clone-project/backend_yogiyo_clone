@@ -75,4 +75,10 @@ public class AdminApiService {
         return menuList;
 
     }
+
+    @Transactional
+    public void deleteMenu(Long menu_id) {
+        Menu menu = adminApiMenuRepository.findById(menu_id).orElseThrow(() -> new IllegalArgumentException("가게가 없습니다."));
+        adminApiMenuRepository.deleteByStoreAndId(menu.getStore(), menu_id);
+    }
 }
