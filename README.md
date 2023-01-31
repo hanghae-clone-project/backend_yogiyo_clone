@@ -51,8 +51,13 @@ ___5. OrderComplete___
 ______________
 # 기술아키텍쳐
 ![image](https://user-images.githubusercontent.com/86154028/215790154-1deaa310-d061-438f-b194-6b56bf4b711a.png)
+
 ___________
 # 와이어프레임
 ![image](https://user-images.githubusercontent.com/86154028/215790225-596b4d99-e663-4732-8e15-b124bfe8e8b7.png)
+
+___________
+# 객체 다이어그램
+![image](https://user-images.githubusercontent.com/87173870/215795381-f4224e0c-be58-42f5-a22a-433fceba09a9.png)
 
 
