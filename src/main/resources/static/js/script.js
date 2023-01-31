@@ -324,3 +324,19 @@ function imageUpload(id, dirName) {
     })
 
 }
+
+function deleteMenuInfo(menu_id) {
+    $.ajax({
+        type:"DELETE",
+        url:"/admin/menu/menu-delete/" + menu_id,
+        dataType:"json",
+        contentType:"application/json",
+        beforeSend:function (xhr) {
+            xhr.setRequestHeader("Authorization",localStorage.getItem("token"));
+        },
+        success:function(response) {
+            alert("메뉴 삭제 완료");
+            window.location.reload();
+        }
+    })
+}
