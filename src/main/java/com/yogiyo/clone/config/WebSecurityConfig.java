@@ -1,5 +1,6 @@
 package com.yogiyo.clone.config;
 
+import com.yogiyo.clone.security.exception.CustomAuthenticationEntryPoint;
 import com.yogiyo.clone.security.jwt.JwtAuthFilter;
 import com.yogiyo.clone.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
 
         http.cors().configurationSource(configurationSource());
 
