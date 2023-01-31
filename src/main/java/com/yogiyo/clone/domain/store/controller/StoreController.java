@@ -1,5 +1,6 @@
 package com.yogiyo.clone.domain.store.controller;
 
+import com.yogiyo.clone.domain.order.dto.OrderRequestDto;
 import com.yogiyo.clone.domain.store.dto.StoreDataDto;
 import com.yogiyo.clone.domain.store.dto.StoreListDto;
 import com.yogiyo.clone.domain.store.dto.StoreResponseDto;
@@ -8,10 +9,7 @@ import com.yogiyo.clone.domain.temporary_admin.service.AdminApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class StoreController {
     @GetMapping("/{storeId}")
     public ResponseEntity<StoreDataDto> toStore(@PathVariable Long storeId) {
         StoreResponseDto foundStore = storeService.getStore(storeId);
-        StoreDataDto storeDataDto = new StoreDataDto(200,"가게 조회 완료", foundStore);
+        StoreDataDto storeDataDto = new StoreDataDto(200, "가게 조회 완료", foundStore);
         return new ResponseEntity<>(storeDataDto, HttpStatus.OK);
     }
 
