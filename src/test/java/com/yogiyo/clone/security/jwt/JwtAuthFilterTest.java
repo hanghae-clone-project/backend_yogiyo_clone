@@ -27,11 +27,11 @@ class JwtAuthFilterTest {
     @Autowired
     MockMvc mvc;
 
-    @DisplayName("토큰 검증 실패 - 토큰이 없다면  - 403 반환")
+    @DisplayName("토큰 검증 실패 - 토큰이 없다면  - 401 반환")
     @Test
     void test1() throws Exception {
         mvc.perform(get("/stores"))
-                .andExpect(status().isForbidden())
+                .andExpect(status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.header().doesNotExist(AUTHORIZATION_HEADER));
 
     }
