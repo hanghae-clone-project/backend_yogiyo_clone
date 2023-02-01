@@ -71,6 +71,5 @@ ___________
 ___________
 # 객체 다이어그램
 ![image](https://user-images.githubusercontent.com/87173870/215795381-f4224e0c-be58-42f5-a22a-433fceba09a9.png)
-![ERD-20230201](https://user-images.githubusercontent.com/119824778/216019944-e5ac7c96-7828-4169-bafb-5a3058f89d62.png)
-
+![ERD-20230201](https://user-images.githubusercontent.com/119824778/216022424-3dd2e659-a1fc-4012-903f-72595f540abf.png)
 
