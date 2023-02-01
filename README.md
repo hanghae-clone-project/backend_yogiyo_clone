@@ -9,13 +9,13 @@
 __________
 # 팀원
 `BE`
-- 이재헌
-- 유동윤
-- 고현우
+- 이재헌(https://github.com/JxxHxxx)
+- 유동윤(https://github.com/rylynntruth)
+- 고현우(https://github.com/midcondria)
 
 `FE`
-- 이채정
-- 김지석
+- 이채정(https://github.com/AngelaChaejung)
+- 김지석(https://github.com/p1ants)
 # 주요 기술 스택 및 기능
 _____________
 `FE`
