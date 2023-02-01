@@ -33,7 +33,10 @@ public class WebSecurityConfig {
     private static final String[] permitUrl = {"/users/**", "/favicon.ico","/"}; // cors test 용 "/cors/**"
 
     private static final List<String> permitOrigin =
-            List.of("http://localhost:3000","https://yogiyo-clone-coding-red.vercel.app","http://chaejung-clonecoding.s3-website.ap-northeast-2.amazonaws.com","http://localhost:8080");
+            List.of("https://yogiyo-clone-coding-red.vercel.app");
+//    private static final List<String> permitOrigin =
+//            List.of("http://localhost:3000","https://yogiyo-clone-coding-red.vercel.app",
+//                    "http://chaejung-clonecoding.s3-website.ap-northeast-2.amazonaws.com","http://localhost:8080");
 
     private static final List<String> permitHeader = List.of("Authorization","Content-Type");
 
@@ -80,6 +83,7 @@ public class WebSecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(permitOrigin);
+        config.addAllowedOrigin("https://yogiyo-clone-coding-red.vercel.app");
         config.addAllowedMethod("*");
 //        config.setAllowedHeaders(permitHeader);
 
