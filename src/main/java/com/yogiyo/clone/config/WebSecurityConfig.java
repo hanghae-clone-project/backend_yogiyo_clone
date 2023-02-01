@@ -85,7 +85,8 @@ public class WebSecurityConfig {
         config.setAllowedOrigins(permitOrigin);
         config.addAllowedOrigin("https://yogiyo-clone-coding-red.vercel.app");
         config.addAllowedMethod("*");
-//        config.setAllowedHeaders(permitHeader);
+
+        config.setAllowedHeaders(permitHeader);
 
         config.addAllowedHeader("Authorization");
         config.addAllowedHeader("Content-Type");
