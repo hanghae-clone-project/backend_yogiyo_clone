@@ -3,6 +3,8 @@
 
 [👉🏻 요기요 클론 사이트 바로가기](http://chaejung-clonecoding.s3-website.ap-northeast-2.amazonaws.com/)
 
+[👉🏻 요기요 클론 사이트 바로가기 - https](https://yogiyo-clone-coding-red.vercel.app/)
+
 [👉 프로젝트 시연 영상 바로가기](https://www.youtube.com/watch?v=7OWFItVEiR4)
 
 -----------
